@@ -1,0 +1,331 @@
+<html dir="rtl" lang="he">
+
+<head>
+    <title>עלינו - ישיבת לב תל אביב</title>
+    <link rel="icon" href="/logo.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bellefair&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="/lib/animate.min.css" />
+    <link rel="stylesheet" href="/lib/jquery-mobile/jquery.mobile-1.4.5.css" />
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/jquery-mobile/jquery.mobile-1.4.5.min.js"></script>
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+        .images {
+            display: flex;
+            display: flex;
+            flex-direction: row;
+            scroll-behavior: smooth;
+            flex-wrap: nowrap;
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+        
+        .images>* {
+            margin: 10px;
+            height: 200px;
+        }
+        
+        .images>img {
+            transition: transform 0.2s linear, opacity 0.1s linear;
+            box-shadow: rgba(0, 0, 0, 1) 1px 1px 5px;
+            opacity: calc(1.5 - (var(--loc) * var(--loc) * 0.000004));
+            transform: perspective(5000px) scale(calc(1.1 - (var(--loc) * var(--loc) * 0.0000019))) rotateZ(calc(var(--loc) * 0.15deg)) rotateX(calc(var(--loc) * 0.15deg));
+        }
+        
+        .images>div {
+            padding: 0px 200px;
+        }
+        
+        .images2 {
+            margin-top: 3em;
+            margin-bottom: 3em;
+            position: relative;
+            overflow-x: clip;
+            height: 14em;
+        }
+        
+        .images2>div {
+            position: absolute;
+            text-align: center;
+            height: 14em;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: -40;
+        }
+        
+        .images2>div.previous {
+            cursor: pointer;
+            position: absolute;
+            text-align: center;
+            width: auto;
+            height: auto;
+            top: 50%;
+            left: 0;
+            z-index: 30;
+            font-size: 100px;
+            transform: translateY(-50%) scaleX(0.5);
+        }
+        
+        .images2>div.previous::before {
+            content: ">";
+        }
+        
+        .images2>div.next {
+            cursor: pointer;
+            position: absolute;
+            text-align: center;
+            width: auto;
+            height: auto;
+            top: 50%;
+            right: 0;
+            left: auto;
+            z-index: 30;
+            font-size: 100px;
+            transform: translateY(-50%) scaleX(0.5);
+        }
+        
+        .images2>div.next::before {
+            content: "<";
+        }
+        
+        .images2>div.swiper {
+            z-index: 29;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.0);
+        }
+        
+        .images2>div>img {
+            display: inline;
+            opacity: -5000;
+            transition: transform 0.4s ease-in, opacity 0.2s linear, z-index 0.4s ease-in, box-shadow 0.4s linear;
+            height: 12em;
+            margin: 1em;
+            box-shadow: rgba(0, 0, 0, 1) 1px 1px 5px;
+            transform: perspective(500px) translateZ(-600px);
+        }
+        
+        .images2>div[data-cur="0"]>img {
+            transform: perspective(500px) translateZ(100px);
+            transform: perspective(500px);
+            box-shadow: rgba(0, 0, 0, 1) 0px 0px 15px;
+            opacity: 1;
+        }
+        
+        .images2>div[data-cur="0"] {
+            z-index: 20;
+        }
+        
+        .images2>div[data-cur="1"]>img {
+            transform: perspective(500px) translateX(20em) translateZ(-200px) rotateY(10deg) rotateX(10deg) rotateZ(20deg);
+            /* transform: perspective(5000px) translateX(15em) rotateZ(-40deg) rotateX(-40deg); */
+            opacity: 0.9;
+        }
+        
+        .images2>div[data-cur="1"] {
+            z-index: 10;
+        }
+        
+        .images2>div[data-cur="-1"]>img {
+            transform: perspective(500px) translateX(-20em) translateZ(-200px) rotateY(-10deg) rotateX(10deg) rotateZ(-20deg);
+            /* transform: perspective(5000px) translateX(-15em) rotateZ(40deg) rotateX(40deg); */
+            opacity: 0.9;
+        }
+        
+        .images2>div[data-cur="-1"] {
+            z-index: 10;
+        }
+        
+        .images2>div[data-cur="2"]>img {
+            transform: perspective(500px) translateX(40em) translateZ(-400px) rotateY(20deg) rotateX(20deg) rotateZ(40deg);
+            /* transform: perspective(5000px) translateX(30em) rotateZ(-80deg) rotateX(-80deg); */
+            opacity: 0.6;
+        }
+        
+        .images2>div[data-cur="2"] {
+            z-index: 0;
+        }
+        
+        .images2>div[data-cur="-2"]>img {
+            transform: perspective(500px) translateX(-40em) translateZ(-400px) rotateY(-20deg) rotateX(20deg) rotateZ(-40deg);
+            /* transform: perspective(5000px) translateX(-30em) rotateZ(80deg) rotateX(80deg); */
+            opacity: 0.6;
+        }
+        
+        .images2>div[data-cur="-2"] {
+            z-index: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header data-nav="nav">
+    </header>
+    <main>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="images col-12">
+                    <div></div>
+                    <img src="images/הרב ניר כובע יום הולדת.jpg">
+                    <img src="images/סוף מסלול איסוף.jpg">
+                    <img src="images/סעודת ראש חודש.jpg">
+                    <img src="images/ראם ועדי נעים.jpg">
+                    <img src="images/קריאה בתורה ספה.jpg">
+                    <img src="images/הרב ניר כובע יום הולדת.jpg">
+                    <img src="images/סוף מסלול איסוף.jpg">
+                    <img src="images/סעודת ראש חודש.jpg">
+                    <img src="images/ראם ועדי נעים.jpg">
+                    <img src="images/קריאה בתורה ספה.jpg">
+                    <div></div>
+                </div>
+                <div class="images2 col-12">
+                    <div class="swiper"></div>
+                    <div class="previous"></div>
+                    <div class="next"></div>
+                    <div><img src="images/הרב ניר כובע יום הולדת.jpg"></div>
+                    <div><img src="images/סוף מסלול איסוף.jpg"></div>
+                    <div><img src="images/סעודת ראש חודש.jpg"></div>
+                    <div><img src="images/ראם ועדי נעים.jpg"></div>
+                    <div><img src="images/קריאה בתורה ספה.jpg"></div>
+                    <div><img src="images/הרב ניר כובע יום הולדת.jpg"></div>
+                    <div><img src="images/סוף מסלול איסוף.jpg"></div>
+                    <div><img src="images/סעודת ראש חודש.jpg"></div>
+                    <div><img src="images/ראם ועדי נעים.jpg"></div>
+                    <div><img src="images/קריאה בתורה ספה.jpg"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">&copy; 2022 - ישיבת לב תל אביב</span>
+        </div>
+    </footer>
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="index.js"></script>
+    <script>
+        loadNavbar("images.html");
+
+        // Images 1
+        const i = $(" .images ");
+        $(" .images>img ").load(elem => {
+            const e = $(elem);
+            const mid = width * 2 - (e.position().left - start) - (e.width() / 2);
+            elem.setAttribute("data-mid", mid);
+            elem.style.setProperty('--loc', "calc((var(--scroll) + " + mid + "))");
+        });
+        // setTimeout(() => {
+        //     const start = i.position().left;
+        //     const width = i.width() / 2;
+        //     $(" .images>img ").each((index, elem) => {
+        //         // elem.setAttribute("data-index", index);
+        //         // const e = $(elem);
+        //         // const mid = width * 2 - (e.position().left - start) - (e.width() / 2);
+        //         // //const mid = rect.right - start;
+        //         // elem.setAttribute("data-mid", mid);
+        //         // elem.style.setProperty('--loc', "calc((var(--scroll) + " + (mid - width) + "))")
+        //         //     //elem.style.transform = "translateY(calc((var(--scroll) + " + mid + " - 300) * 0.1px))";
+        //         //     //elem.style.transform = "perspective(5000px) rotateZ(calc(var(--loc) * 0.15deg)) rotateX(calc(var(--loc) * 0.15deg))";
+        //         //     elem.setAttribute("data-index", index);
+        //         const e = $(elem);
+        //         const mid = width * 2 - (e.position().left - start) - (e.width() / 2);
+        //         elem.setAttribute("data-mid", mid);
+        //         elem.style.setProperty('--loc', "calc((var(--scroll) + " + mid + "))");
+        //     });
+        // }, 1600);
+        i.scroll(o => {
+            const p = i.scrollLeft() - (i.width() / 2);
+            document.body.style.setProperty('--scroll', p);
+        });
+        // $(window).resize(o => {
+        //     i.scrollLeft(0);
+        //     $(" .images>img ").each((index, elem) => {
+        //         elem.style.transform = "perspective(5000px)";
+        //     });
+        //     setTimeout(() => {
+        //         const start = i.position().left;
+        //         const width = i.width() / 2;
+        //         $(" .images>img ").each((index, elem) => {
+        //             const e = $(elem);
+        //             const mid = width * 2 - (e.position().left - start) - (e.width() / 2);
+        //             //const mid = rect.right - start;
+        //             elem.setAttribute("data-mid", mid);
+        //             elem.style.setProperty('--loc', "calc((var(--scroll) + " + (mid - width) + "))")
+        //                 //elem.style.transform = "translateY(calc((var(--scroll) + " + mid + " - 300) * 0.1px))";
+        //                 //elem.style.transform = "perspective(5000px) rotateZ(calc(var(--loc) * 0.15deg)) rotateX(calc(var(--loc) * 0.15deg))";
+        //         });
+        //     }, 1600);
+        //     setTimeout(() => {
+        //         $(" .images>img ").each((index, elem) => {
+        //             elem.style.transform = "";
+        //         });
+        //     }, 2600);
+        // });
+
+        // Images 2
+        var images2 = $(".images2").children().slice(3).map((index, elem) => $(elem));
+        const list = setCircularList(images2);
+        var minimum = list.previous.previous,
+            maximum = list.next.next;
+
+        function forward(min) {
+            min.data.attr("data-cur", "");
+            minimum = min.next;
+            var node = minimum;
+            for (let i = -2; i < 3; i++) {
+                node.data.attr("data-cur", i.toString());
+                node = node.next;
+            }
+            maximum = node.previous;
+        }
+
+        function backward(max) {
+            max.data.attr("data-cur", "");
+            maximum = max.previous;
+            var node = maximum;
+            for (let i = 2; i > -3; i--) {
+                node.data.attr("data-cur", i.toString());
+                node = node.previous;
+            }
+            minimum = node.next;
+        }
+        forward(list.previous.previous);
+        $(".images2>.previous").click(_ => {
+            backward(maximum);
+        });
+        $(".images2>.next").click(_ => {
+            forward(minimum);
+        });
+
+        $(function() {
+            // Bind the swipeleftHandler callback function to the swipe event on div.box
+            $("div.swiper").on("swipeleft", swipeleftHandler);
+            $("div.swiper").on("swiperight", swiperightHandler);
+
+            // Callback function references the event target and adds the 'swipeleft' class to it
+            function swipeleftHandler(event) {
+                forward(minimum);
+            }
+
+            function swiperightHandler(event) {
+                backward(maximum);
+            }
+        });
+        // setTimeout(() => {
+        //     forward(minimum)
+        // }, 1500);
+        // setTimeout(() => {
+        //     forward(minimum)
+        // }, 3000);
+    </script>
+</body>
+
+</html>

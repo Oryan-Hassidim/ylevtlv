@@ -1,0 +1,317 @@
+https://codepen.io/sean_codes/pen/MXLVGj
+
+
+*********************************************
+html (pug):
+*********************************************
+
+- tileCount = 5
+- i = 0
+
+div.app
+   div.tiles
+      - while(i++ < tileCount)
+         input(type='checkbox' id='demo-'+i)
+         div.tile-container
+            div.tile
+               label.open(for='demo-'+i)
+               label.close(for='demo-'+i) +
+               div.text
+                  div.sh
+                     img(src='http://127.0.0.1:5500/logo.svg')
+                     header
+                        h5 demo #{i*i*i*i*i*i*i*i*i*i*i*i*i*i*i*i*i*i}
+                        h6 demo demo demo
+               div.content demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text. demo text.
+
+
+
+***********************************************
+scss:
+***********************************************
+
+html,
+body {
+   padding: 0px;
+   margin: 0px;
+   background: white;
+   font-family: "Arvo", sans-serif;
+   color: #fff;
+   height: 100%;
+}
+
+body {
+   display: flex;
+   padding: 10px;
+}
+
+$tilecount: 5;
+$tileWidth: 50%;
+$tileHeight: 55ex;
+$appWidth: 900px;
+$padding: 10px;
+$columns: 2;
+
+.app,
+.app * {
+   box-sizing: border-box;
+   border: none;
+   background: transparent;
+   padding: 0;
+   margin: 0;
+   display: block;
+}
+
+.app {
+   margin: auto;
+   width: 100%;
+   max-width: $appWidth;
+
+   .tiles {
+      height: ceil($tilecount/$columns) * ($tileHeight + 1);
+      position: relative;
+      margin-bottom: 60px;
+      margin-top: 60px;
+
+
+      input {
+         display: none;
+      }
+
+      // global
+      .tile-container {
+         display: flex;
+         position: absolute;
+         height: $tileHeight;
+         transform: translateX(-50%);
+         transition: all 0.15s 0.15s;
+         z-index: 1000;
+         .tile {
+            background: white;
+            margin: auto;
+            width: 90%;
+            height: 90%;
+            border-radius: 2px;
+            user-select: none;
+            position: relative;
+            box-shadow: 0px 0px 10px black;
+            transition: all 0.15s 0.15s, background 0.15s;
+
+            &:hover {
+               box-shadow: 0px 3px 10px black;
+               transform: translate(-3px, -3px) scale(1.02, 1.02);
+               .text {
+                  .sh {
+                     filter: drop-shadow(2px 2px 3px gray);
+                  }
+               }
+            }
+
+            .text {
+               position: relative;
+               top: 15%;
+               transition: all 0.15s 0.15s;
+               width: 100%;
+               text-align: center;
+               line-height: 2.5em;
+               white-space: wrap;
+               pointer-events: none;
+               text-transform: uppercase;
+               color: rgb(75, 75, 75);
+               padding: auto;
+               img {
+                  transition: all 0.15s 0.15s;
+                  max-width: 95%;
+                  max-height: 25ex;
+                  display: block;
+                  margin-left: auto;
+                  margin-right: auto;
+                  pointer-events: none;
+                  clip-path: circle(50% at 50% 50%);
+               }
+               header {
+                  padding-top: 1px;
+                  transition: all 0.15s 0.15s;
+                  h5 {
+                     transition: all 0.15s 0.15s;
+                     font-size: 2em;
+                  }
+                  h6 {
+                     transition: all 0.15s 0.15s;
+                     font-size: 1.4em;
+                  }
+               }
+            }
+
+            .content {
+               transition: all 0.15s, max-height 0s;
+               opacity: 0;
+               pointer-events: none;
+               overflow: hidden;
+               max-height: 0;
+               color: rgb(75, 75, 75);
+            }
+
+            .open {
+               cursor: pointer;
+               position: absolute;
+               width: 100%;
+               height: 100%;
+               top: 0;
+               left: 0;
+            }
+
+            .close {
+               // you could have reused the open and clsoe together.
+               // sorry didn't notice until later! :]
+               cursor: pointer;
+               transition: all 0.15s;
+               position: absolute;
+               opacity: 0;
+               top: 25px;
+               right: 25px;
+               color: rgb(75, 75, 75);
+               transform: rotateZ(45deg) translateX(-50%) translateY(-50%);
+               font-size: 25px;
+            }
+         }
+      }
+
+      // open
+      input:checked + .tile-container {
+         transition: all 0.25s;
+         width: 100%;
+         height: 90%;
+         left: 50%;
+         top: 50%;
+         transform: translateX(-50%) translateY(-50%);
+         z-index: 10000;
+         .tile {
+            transition: all 0.25s;
+            background: rgba(255, 255, 255, 0.9);
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 0px 0px 20px black;
+            &:hover {
+               cursor: initial;
+               transform: none;
+               .text {
+                  .sh {
+                     filter: none;
+                  }
+               }
+            }
+            .open {
+               display: none;
+            }
+
+            .close {
+               transition: all 0.15s 0.25s;
+               opacity: 1;
+               &:hover {
+                  transition: all 0.15s;
+                  opacity: 0.5;
+               }
+            }
+
+            .text {
+               top: 0;
+               img {
+                  max-height: 30ex;
+               }
+               header {
+                  h5 {
+                     font-size: 3em;
+                     padding: 20px;
+                  }
+               }
+            }
+
+            .content {
+               flex: 1;
+               transition: all 0.25s 0.4s, max-height 0s 0.4s, flex 0s 0.4s;
+               opacity: 1;
+               margin-top: 10px;
+               pointer-events: initial;
+               width: 100%;
+               max-height: 1000000px;
+               overflow-x: hidden;
+               overflow-y: auto;
+            }
+         }
+      }
+   }
+   // specific
+   // this is what css only makes you do
+   // miss you my friend... javascript <3
+   @for $i from 1 through $tilecount {
+      $x: ($i - 1) % $columns;
+      $y: floor(($i - 1) / $columns);
+
+      .tile-container:nth-of-type(#{$i}) {
+         // you have to be doing something wrong here
+         $first: $x == 1;
+         $last: $x == $columns;
+         $firstOrLast: if($first, if($last, $x - 1, $x), 1);
+         left: calc(#{$x} * #{$tileWidth} + #{$firstOrLast} * #{$tileWidth/2});
+         @if $y >= ($tilecount / $columns) - 1 {
+            left: calc(
+               #{$x} *
+                  #{$tileWidth} +
+                  #{$tileWidth/2} +
+                  #{$firstOrLast} *
+                  #{$tileWidth/2}
+            );
+         }
+         top: calc(#{$y} * #{$tileHeight});
+         width: $tileWidth;
+      }
+   }
+   @media (min-width: 992px) {
+      $tileWidth: 33.334%;
+      $tileHeight: 52ex;
+      $columns: 3;
+
+      .tiles {
+         height: ceil($tilecount/$columns) * ($tileHeight + 1);
+         position: relative;
+         .tile-container {
+            display: flex;
+            position: absolute;
+            height: $tileHeight;
+            transform: translateX(-50%);
+            transition: all 0.15s 0.15s;
+            z-index: 1000;
+         }
+      }
+
+      @for $i from 1 through $tilecount {
+         $x: ($i - 1) % $columns;
+         $y: floor(($i - 1) / $columns);
+
+         .tile-container:nth-of-type(#{$i}) {
+            // you have to be doing something wrong here
+            $first: $x == 1;
+            $last: $x == $columns;
+            $firstOrLast: if($first, if($last, $x - 1, $x), 1);
+            left: calc(
+               #{$x} * #{$tileWidth} + #{$firstOrLast} * #{$tileWidth/2}
+            );
+            @if $y >= ($tilecount / $columns) - 1 {
+               left: calc(
+                  #{$x} *
+                     #{$tileWidth} +
+                     #{$tileWidth/2} +
+                     #{$firstOrLast} *
+                     #{$tileWidth/2}
+               );
+            }
+            top: calc(#{$y} * #{$tileHeight});
+            width: $tileWidth;
+         }
+      }
+   }
+}

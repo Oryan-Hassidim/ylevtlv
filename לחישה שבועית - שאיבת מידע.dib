@@ -1,0 +1,114 @@
+#!fsharp
+
+#r "nuget:System.Text.Encoding.CodePages"
+#r "nuget:FSharp.Data"
+
+#!fsharp
+
+open FSharp.Data;
+let url = "https://www.googleapis.com/youtube/v3/search?&channelId=UCDnAs3jtb-WJWFA7wmVAPgQ%20&part=snippet,id&order=date&key=AIzaSyB1t4V9IX0Xcwd2b_XaN3gaG6VdglcQJ50&maxResults=50"
+type Youtube = JsonProvider<"https://www.googleapis.com/youtube/v3/search?&channelId=UCDnAs3jtb-WJWFA7wmVAPgQ%20&part=snippet,id&order=date&key=AIzaSyB1t4V9IX0Xcwd2b_XaN3gaG6VdglcQJ50&maxResults=5&pageToken=CAUQAA">
+
+#!fsharp
+
+let rec getNextPages token =
+    let page = 
+        match token with
+        | "" -> 
+            Youtube.AsyncLoad $"{url}"
+            |> Async.RunSynchronously
+        | _ ->
+            Youtube.AsyncLoad $"{url}&pageToken={token}"
+            |> Async.RunSynchronously
+    match page.NextPageToken with
+    | "" -> page.Items |> Seq.ofArray
+    | s -> Seq.append page.Items (getNextPages s)
+    
+let items = 
+    getNextPages ""
+
+#!fsharp
+
+open System.Globalization
+let hc = new HebrewCalendar()
+let culture = CultureInfo.CreateSpecificCulture("he-IL")
+culture.DateTimeFormat.Calendar <- hc
+
+#!fsharp
+
+let getYear (date:DateTime) =
+    date.ToString("yyyyy", culture)
+DateTime.Now |> getYear
+
+#!fsharp
+
+let header = "Title,Year,Id,Image"
+let addHeader path =
+    let lines = File.ReadAllLines path
+    let newLines = Array.append [|header|] lines
+    File.WriteAllLines (path, newLines)
+
+#!fsharp
+
+let myItems =
+    items
+    |> Seq.filter (fun i -> i.Snippet.Title.Contains("לחישה") && String.IsNullOrEmpty i.Id.VideoId |> not)
+    |> Seq.map (fun i -> i.Snippet.Title, (i.Snippet.PublishedAt.Date |> getYear),  i.Id.VideoId, i.Snippet.Thumbnails.Medium.Url )
+    |> Seq.toList
+myItems
+
+#!fsharp
+
+myItems |> List.length
+
+#!fsharp
+
+type MyCsvType = CsvProvider<Schema = "Title (string), Year (string), Id (string), Image (string)", HasHeaders=false>
+
+#!fsharp
+
+let rows =
+    myItems
+    |> List.map MyCsvType.Row
+let csv = new MyCsvType(rows)
+csv.Save "youtube.csv"
+addHeader "youtube.csv"
+
+#!fsharp
+
+type Drive = JsonProvider<"C:\\Projects\\Web\\My First Web\\הלחישה השבועית.json">
+
+#!fsharp
+
+let all =
+    Drive.GetSamples()
+    |> Seq.toArray
+open System.Text.RegularExpressions
+let correctName (name:string) =
+    let p1 = name.Replace(".mp3","")
+    if p1.StartsWith("פ ") then 
+        let regex = new Regex(Regex.Escape("פ "))
+        let newText = regex.Replace(p1, "פרשת ", 1)
+        newText
+    else p1
+let filesToRows (files:Drive.File seq) year =
+    files
+    |> Seq.map (fun i -> correctName i.Name, year, i.Id,"")
+    |> Seq.map (fun i -> new MyCsvType.Row(i))
+    |> Seq.toList
+let parts = [
+    filesToRows all[1].Files "תשע\"ח"
+    filesToRows all[2].Files "תשע\"ח"
+    filesToRows all[3].Files "תשע\"ט"
+    filesToRows all[4].Files "תש\"פ"
+]
+
+let allYears = parts |> List.concat
+allYears
+
+#!fsharp
+
+let csv = new MyCsvType(allYears)
+open System.IO
+csv.Save "drive.csv"
+addHeader "drive.csv"

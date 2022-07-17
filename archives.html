@@ -1,0 +1,162 @@
+﻿<html dir="rtl" lang="he">
+
+<head>
+    <meta charset="utf-8" />
+    <title>ארכיון - ישיבת לב תל אביב</title>
+    <link rel="icon" href="/logo.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bellefair&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/lib/animate.min.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/archives.css" />
+</head>
+
+<body>
+    <header data-nav="nav">
+    </header>
+    <main>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="search">
+                        <span>חפש:</span>
+                        <input class="form-control" placeholder="חפש כאן" required type="search" id="search-box" />
+                        <button onclick="clear_search()" class="btn btn-secondary btn-clear">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                        <button onclick="search_text()" class="btn btn-primary">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>נושא</th>
+                                <th>שנה</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            <template>
+                                <tr id="_ID_">
+                                    <th>
+                                        <a href="_HREF_"><img src="_IMAGE_" alt="_TITLE_"></a>
+                                    </th>
+                                    <th>
+                                        <a href="_HREF_">_TITLE_</a>
+                                    </th>
+                                    <th>_YEAR_</th>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">&copy; 2022 - ישיבת לב תל אביב</span>
+        </div>
+    </footer>
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/lib/jquery-csv/jquery.csv.min.js"></script>
+    <script src="index.js"></script>
+    <script src="windows_hebrew_1255.js"></script>
+    <script>
+        loadNavbar("archives.html");
+
+        var body = $("#tbody");
+        const template = "<tr id=\"_ID_\"><th><a href=\"_HREF_\"><img src=\"_IMAGE_\" alt=\"_TITLE_\"></a></th ><th><a href=\"_HREF_\">_TITLE_</a></th><th>_YEAR_</th></tr >";
+
+        var arry;
+        get_1255('/youtube.csv')
+            .then(function(csv) {
+                arry = $.csv.toObjects(csv);
+                for (var i = 0; i < arry.length; i++) {
+                    const item = arry[i];
+                    const link = "https://youtu.be/" + item.Id;
+                    const html = template
+                        .replace("_ID_", "y" + i)
+                        .replace("_TITLE_", item.Title)
+                        .replace("_TITLE_", item.Title)
+                        .replace("_IMAGE_", item.Image)
+                        .replace("_HREF_", link)
+                        .replace("_HREF_", link)
+                        .replace("_YEAR_", item.Year);
+                    body.append(html);
+                    arry[i] = item.Title;
+                }
+            });
+
+        var arrd;
+        get_1255('/drive.csv')
+            .then(function(csv) {
+                arrd = $.csv.toObjects(csv);
+                for (var i = 0; i < arrd.length; i++) {
+                    const item = arrd[i];
+                    const link = "https://drive.google.com/file/d/" + item.Id + "/view?usp=sharing";
+                    const html = template
+                        .replace("_ID_", "d" + i)
+                        .replace("_TITLE_", item.Title)
+                        .replace("_TITLE_", item.Title)
+                        .replace("_IMAGE_", "images/mp3-icon.png")
+                        .replace("_HREF_", link)
+                        .replace("_HREF_", link)
+                        .replace("_YEAR_", item.Year);
+                    body.append(html);
+                    arrd[i] = item.Title;
+                }
+            });
+
+        const searchbox = document.getElementById("search-box");
+
+        // Execute a function when the user releases a key on the keyboard
+        searchbox.addEventListener("keyup", function(event) {
+            // Number 13 is the "Enter" key on the keyboard
+            if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                search_text();
+            }
+        });
+
+        function searchTexts(text, texts) {
+            for (var i = 0; i < texts.length; i++) {
+                if (texts[i] !== "" && text.indexOf(texts[i]) <= 0)
+                    return false;
+            }
+            return true;
+        }
+
+        function clear_search() {
+            searchbox.value = "";
+            search_text();
+        }
+
+        function search_text() {
+            const srch = searchbox.value;
+            const splitted = srch.split(" ");
+            console.log(srch);
+            for (var i = 0; i < arry.length; i++) {
+                if (searchTexts(arry[i], splitted))
+                    document.getElementById("y" + i).setAttribute("filter", "yes");
+                else
+                    document.getElementById("y" + i).setAttribute("filter", "false");
+            }
+            for (var i = 0; i < arrd.length; i++) {
+                if (searchTexts(arrd[i], splitted))
+                    document.getElementById("d" + i).setAttribute("filter", "yes");
+                else
+                    document.getElementById("d" + i).setAttribute("filter", "false");
+            }
+        }
+    </script>
+</body>
+
+</html>

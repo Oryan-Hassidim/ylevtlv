@@ -1,0 +1,124 @@
+﻿.search {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: start;
+    align-items: stretch;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+.search span {
+    align-self: center;
+    margin-left: 10px;
+}
+
+.search input {
+    width: 250px;
+}
+
+.search button {
+    transition: all 0.1s linear;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    transform: translateX(calc(200% + 2px));
+}
+
+.search input+.btn-clear {
+    opacity: 0;
+    transform: translateX(calc(100% + 2px));
+}
+
+.search input:valid+.btn-clear {
+    opacity: 1;
+    transform: translateX(calc(200% + 3px));
+}
+
+.table tr {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: 150px 1fr 1fr;
+    grid-template-areas: "image title year";
+    border-bottom-width: 1px;
+}
+
+.table tr[filter=false] {
+    visibility: collapse;
+    height: 0px;
+    margin: 0px;
+    border-width: 0px;
+}
+
+.table tr th {
+    border-bottom-width: 0px;
+    font-weight: normal;
+}
+
+.table tr th a {
+    color: black;
+    text-decoration: none;
+}
+
+.table tr th a:hover {
+    color: black;
+    text-decoration: underline;
+}
+
+.table tr th:nth-child(1) {
+    grid-area: image;
+    display: inline-grid;
+    align-items: center;
+    justify-items: center;
+}
+
+.table tr th:nth-child(1) img {
+    height: 70px;
+    width: 120px;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+.table tr th:nth-child(1) img[src="images/mp3-icon.png"] {
+    height: 70px;
+    width: 120px;
+    -o-object-fit: contain;
+    object-fit: contain;
+}
+
+.table thead tr {
+    border-bottom-width: 3px;
+}
+
+.table thead tr th {
+    font-weight: bold;
+}
+
+.table thead tr th:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.table thead tr th:nth-child(1):hover {
+    cursor: default;
+}
+
+.table thead tr th:active {
+    color: dimgray;
+}
+
+.table thead tr th[sort]::after {
+    content: '▲';
+    transform: rotate(0deg);
+    margin-right: 4px;
+    font-size: 12px;
+    display: inline-block;
+    transition: transform ease-in 0.1s;
+}
+
+.table thead tr th[dsort]::after {
+    content: '▲';
+    transform: rotate(180deg);
+    margin-right: 4px;
+    font-size: 12px;
+    display: inline-block;
+    transition: transform ease-in 0.1s;
+}
