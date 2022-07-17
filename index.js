@@ -5,23 +5,25 @@ window.addEventListener('scroll', () => {
     });
 }, false);
 
-function loadNavbar(current) {
+function loadNavbar(current = null) {
     $.get('/navbar.html', {
-            '_': $.now()
-        } // Prevents caching
-    ).done(function(html) {
+        '_': $.now()
+    } // Prevents caching
+    ).done(function (html) {
         const nav = $("header[data-nav='nav']").html(html);
-        nav.find(' .d-lg-block.d-xl-block>a.dropdown-toggle ').click(function() {
+        nav.find(' .d-lg-block.d-xl-block>a.dropdown-toggle ').click(function () {
             window.location = $(this).attr('href');
         });
-        nav.find('a[href$="' + current + '"]').addClass("current");
-    }).fail(function(jqXHR, textStatus) {});
+        if (current != null) {
+            nav.find('a[href$="' + current + '"]').addClass("current");
+        }
+    }).fail(function (jqXHR, textStatus) { });
 }
 
 function loadHalfs() {
     const half = $(" .half ");
     const btn = half.append('<div class="continue-btn"><button type="button" class="btn btn-primary btn-lg">להמשך...</button></div>');
-    btn.find(" div.continue-btn > button").click(function() {
+    btn.find(" div.continue-btn > button").click(function () {
         $(this).parent(" div.continue-btn ").parent(" .half ").removeClass(" half ");
         $(this).parent(" div.continue-btn ").hide();
     });
@@ -48,7 +50,7 @@ function loadParallax() {
         const src = osrc.replace(" ", "\\ ");
         myparallax.css("background-image", "url(" + src + ")");
 
-        scrollingFunctions.push(function() {
+        scrollingFunctions.push(function () {
             const e = myparallax;
             for (let i = 0; i < e.length; i++) {
                 const rect = e.getBoundingClientRect();
@@ -59,7 +61,7 @@ function loadParallax() {
     }
 }
 
-$("textarea").change(function(event) {
+$("textarea").change(function (event) {
     const v = $(this);
     v.attr("value", (v.val() === "" ? " " : v.val()));
 });
@@ -67,7 +69,7 @@ $("textarea").change(function(event) {
 function rabanim() {
     var inview = false;
     const elem = $(' .tile-container:nth-of-type(1) ');
-    scrollingFunctions.push(function() {
+    scrollingFunctions.push(function () {
         if (!inview) {
             if (isScrolledIntoView(elem)) {
                 var demo1 = document.querySelector('#demo-1')
@@ -99,7 +101,7 @@ function rabanim() {
 
 function registerForm() {
     const registerForm = $(" #registerForm ");
-    registerForm.submit(function(event) {
+    registerForm.submit(function (event) {
         event.preventDefault();
         registerForm.find("#submit")
             .addClass("submitted")
@@ -118,7 +120,7 @@ function registerForm() {
                 message: registerForm.find("#message").val()
             },
             url = "https://ylevtlv.azurewebsites.net/api/RegisterDetails?code=Af0XKw7PiTsvuKDgF6anNZzSeNijZpSvKAB8XESvx476KlcXN1ZvdA==";
-        var posting = $.post(url, JSON.stringify(details), function(data) {
+        var posting = $.post(url, JSON.stringify(details), function (data) {
             const h = "<div><p>" + data.replace("\r\n", "</p><p>") + "</p></div>";
             $("#sumbitDiv").html(h);
         });
