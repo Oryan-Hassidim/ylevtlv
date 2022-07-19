@@ -121,7 +121,12 @@ function registerForm() {
             },
             url = "https://ylevtlv.azurewebsites.net/api/RegisterDetails?code=Af0XKw7PiTsvuKDgF6anNZzSeNijZpSvKAB8XESvx476KlcXN1ZvdA==";
         var posting = $.post(url, JSON.stringify(details), function (data) {
-            const h = "<div><p>" + data.replace("\r\n", "</p><p>") + "</p></div>";
+            if (data == 204) {
+                const h = "<div><p>בקשתך התקבלה ונשתדל לשוב אליך בהקדם🙃</p></div>";
+            }
+            else {
+                const h = "<div><p>הייתה בעיה בקשר עם השרתים😒</p><p>נסה אולי לפנות אלינו דרך הוואטסאפ...</p></div>"
+            }
             $("#sumbitDiv").html(h);
         });
     });
