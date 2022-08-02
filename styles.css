@@ -820,6 +820,7 @@ blockquote {
 }
 
 .register-form input[type=text],
+.register-form input[type=number],
 .register-form textarea {
     background: transparent;
     border: none;
@@ -831,6 +832,7 @@ blockquote {
 }
 
 .register-form input[type=text]:focus,
+.register-form input[type=number]:focus,
 .register-btn textarea:focus {
     outline: none;
     border-bottom: 1px solid white;
@@ -843,6 +845,7 @@ textarea {
 }
 
 .register-form input[type=text]+label,
+.register-form input[type=number]+label,
 .register-form textarea+label {
     position: absolute;
     color: #4b4b4b;
@@ -855,6 +858,7 @@ textarea {
 }
 
 .register-form input[type=text]+label::after,
+.register-form input[type=number]+label::after,
 .register-form textarea+label::after {
     content: ":";
     color: transparent;
@@ -862,7 +866,9 @@ textarea {
 }
 
 .register-form input[type=text]:valid+label,
-.register-form input[type=text]:focus+label {
+.register-form input[type=number]:valid+label,
+.register-form input[type=text]:focus+label,
+.register-form input[type=number]:focus+label {
     color: #1d1d1d;
     font-size: 0.8em;
     transform: translateY(-2em);
@@ -878,7 +884,9 @@ textarea {
 .register-form textarea:not([value=" "])+label::after,
 .register-form textarea:focus+label::after,
 .register-form input[type=text]:valid+label::after,
-.register-form input[type=text]:focus+label::after {
+.register-form input[type=text]:focus+label::after,
+.register-form input[type=number]:valid+label::after,
+.register-form input[type=number]:focus+label::after {
     color: #1d1d1d;
 }
 
@@ -1040,4 +1048,31 @@ div.stretchy-wrapper>div {
 
 .cont>div {
     margin-bottom: 1em;
+}
+
+.contribute>input[type=checkbox],
+.contribute>input[type=radio] {
+    display: none;
+}
+
+.contribute>input[type=checkbox]+div,
+.contribute>input[type=radio]+div {
+    display: none;
+}
+
+.contribute>input[type=checkbox]:checked+div,
+.contribute>input[type=radio]:checked+div {
+    display: block;
+}
+
+.bank-details input[type=radio] {
+    display: none;
+}
+
+.bank-details input[type=radio]+p {
+    display: none
+}
+
+.bank-details input[type=radio]:checked+p {
+    display: inline
 }

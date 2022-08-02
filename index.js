@@ -7,23 +7,23 @@ window.addEventListener('scroll', () => {
 
 function loadNavbar(current = null) {
     $.get('/navbar.html', {
-        '_': $.now()
-    } // Prevents caching
-    ).done(function (html) {
+            '_': $.now()
+        } // Prevents caching
+    ).done(function(html) {
         const nav = $("header[data-nav='nav']").html(html);
-        nav.find(' .d-lg-block.d-xl-block>a.dropdown-toggle ').click(function () {
+        nav.find(' .d-lg-block.d-xl-block>a.dropdown-toggle ').click(function() {
             window.location = $(this).attr('href');
         });
         if (current != null) {
             nav.find('a[href$="' + current + '"]').addClass("current");
         }
-    }).fail(function (jqXHR, textStatus) { });
+    }).fail(function(jqXHR, textStatus) {});
 }
 
 function loadHalfs() {
     const half = $(" .half ");
     const btn = half.append('<div class="continue-btn"><button type="button" class="btn btn-primary btn-lg">להמשך...</button></div>');
-    btn.find(" div.continue-btn > button").click(function () {
+    btn.find(" div.continue-btn > button").click(function() {
         $(this).parent(" div.continue-btn ").parent(" .half ").removeClass(" half ");
         $(this).parent(" div.continue-btn ").hide();
     });
@@ -50,7 +50,7 @@ function loadParallax() {
         const src = osrc.replace(" ", "\\ ");
         myparallax.css("background-image", "url(" + src + ")");
 
-        scrollingFunctions.push(function () {
+        scrollingFunctions.push(function() {
             const e = myparallax;
             for (let i = 0; i < e.length; i++) {
                 const rect = e.getBoundingClientRect();
@@ -61,7 +61,7 @@ function loadParallax() {
     }
 }
 
-$("textarea").change(function (event) {
+$("textarea").change(function(event) {
     const v = $(this);
     v.attr("value", (v.val() === "" ? " " : v.val()));
 });
@@ -69,7 +69,7 @@ $("textarea").change(function (event) {
 function rabanim() {
     var inview = false;
     const elem = $(' .tile-container:nth-of-type(1) ');
-    scrollingFunctions.push(function () {
+    scrollingFunctions.push(function() {
         if (!inview) {
             if (isScrolledIntoView(elem)) {
                 var demo1 = document.querySelector('#demo-1')
@@ -101,7 +101,7 @@ function rabanim() {
 
 function registerForm() {
     const registerForm = $(" #registerForm ");
-    registerForm.submit(function (event) {
+    registerForm.submit(function(event) {
         event.preventDefault();
         registerForm.find("#submit")
             .addClass("submitted")
@@ -120,17 +120,105 @@ function registerForm() {
                 message: registerForm.find("#message").val()
             },
             url = "https://ylevtlv.azurewebsites.net/api/RegisterDetails?code=Af0XKw7PiTsvuKDgF6anNZzSeNijZpSvKAB8XESvx476KlcXN1ZvdA==";
-        var posting = $.post(url, JSON.stringify(details), function (data) {
+        var posting = $.post(url, JSON.stringify(details), function(data) {
             if (data == 204) {
                 const h = "<div><p>בקשתך התקבלה ונשתדל לשוב אליך בהקדם🙃</p></div>";
-            }
-            else {
+            } else {
                 const h = "<div><p>הייתה בעיה בקשר עם השרתים😒</p><p>נסה אולי לפנות אלינו דרך הוואטסאפ...</p></div>"
             }
             $("#sumbitDiv").html(h);
         });
     });
 }
+
+function contributeForm() {
+    const registerForm = $(" #detailsForm ");
+    registerForm.submit(function(event) {
+        event.preventDefault();
+        registerForm.find("#submit")
+            .addClass("submitted")
+            .delay(350)
+            .animate({
+                opacity: "0"
+            }, 100);
+
+        registerForm.find(".spinner")
+            .delay(330)
+            .fadeIn();
+        var pay_option = "Yaad";
+        if ($("#paybox").is(":checked")) {
+            pay_option = "PayBox";
+        } else if ($("#debit").is(":checked")) {
+            if ($("#reciet").is(":checked")) {
+                pay_option = "Aish";
+            } else {
+                pay_option = "Yaad";
+            }
+        } else if ($("#view-bank-details").is(":checked")) {
+            if ($("#reciet").is(":checked")) {
+                pay_option = "BankTransferAish";
+            } else {
+                pay_option = "BankTransferMechonYair";
+            }
+        }
+
+        if (registerForm.find("#months").val() != undefined && registerForm.find("#months").val() > 1) {
+            var $form = $(this),
+                details = {
+                    name: registerForm.find("#name").val(),
+                    amount: registerForm.find("#amount").val(),
+                    repeat: true,
+                    months: registerForm.find("#months").val()
+                },
+                url = "https://ylevtlv.azurewebsites.net/api/Contribute?code=Cti-yoFy3ifJG60NfV133octc_oHcNOl5lMjHjvERy5XAzFuueYpcQ=="
+        } else {
+            var $form = $(this),
+                details = {
+                    name: registerForm.find("#name").val(),
+                    amount: registerForm.find("#amount").val(),
+                    repeat: false
+                },
+                url = "https://ylevtlv.azurewebsites.net/api/Contribute?code=Cti-yoFy3ifJG60NfV133octc_oHcNOl5lMjHjvERy5XAzFuueYpcQ=="
+        }
+        var posting = $.post(url, JSON.stringify(details), function(data) {
+            if (data == 204) {
+                const h = "<div><p>בקשתך התקבלה ונשתדל לשוב אליך בהקדם🙃</p></div>";
+                $("#sumbitDiv").html(h);
+            } else {
+                const h = "<div><p>הייתה בעיה בקשר עם השרתים😒</p></div>"
+                $("#sumbitDiv").html(h);
+            }
+            if (pay_option === "PayBox")
+                location.assign("https://payboxapp.page.link/sKXxfojXwVXgcd3J9");
+            else if (pay_option === "Aish")
+                location.assign('https://aishglobal.formtitan.com/ft9df2a10c1644317397601_copy?fld13=416669#/');
+            else if (pay_option === "Yaad")
+                location.assign('https://icom.yaad.net/p/?action=pay&PassP=1234&Masof=4500341429&HK=True&OnlyOnApprove=True&sendemail=True&UTF8=True&UTF8out=True&Info=DirectDebit&Coin=1&PageLang=HEB');
+            else
+                $("#collapseFour").collapse('show');
+        });
+    });
+}
+
+function transfer() {
+    $("#view-reciet").prop("checked", true);
+    $("#collapseTwo").collapse('show');
+}
+
+function debit() {
+    $("#view-reciet").prop("checked", true);
+    $("#collapseTwo").collapse('show');
+}
+
+function paybox() {
+    $("#view-reciet").prop("checked", false);
+    $("#collapseThree").collapse('show');
+}
+
+function reciet() {
+    $("#collapseThree").collapse('show');
+}
+
 
 class ListNode {
     constructor(data) {
