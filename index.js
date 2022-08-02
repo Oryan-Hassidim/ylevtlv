@@ -161,8 +161,8 @@ function contributeForm() {
                 pay_option = "BankTransferMechonYair";
             }
         }
-
-        if (registerForm.find("#months").val() != undefined && registerForm.find("#months").val() > 1) {
+        const repeat = registerForm.find("#months").val() != undefined && registerForm.find("#months").val() > 1
+        if (repeat) {
             var $form = $(this),
                 details = {
                     name: registerForm.find("#name").val(),
@@ -191,7 +191,10 @@ function contributeForm() {
             if (pay_option === "PayBox")
                 location.assign("https://payboxapp.page.link/sKXxfojXwVXgcd3J9");
             else if (pay_option === "Aish")
-                location.assign('https://aishglobal.formtitan.com/ft9df2a10c1644317397601_copy?fld13=416669#/');
+                if (repeat)
+                    location.assign('https://aishglobal.formtitan.com/ftd1e9e83d1645553757121_copy?fld21=7014K000000DoAvQAK#/');
+                else
+                    location.assign('https://aishglobal.formtitan.com/ft9df2a10c1644317397601_copy?fld13=416669#/');
             else if (pay_option === "Yaad")
                 location.assign('https://icom.yaad.net/p/?action=pay&PassP=1234&Masof=4500341429&HK=True&OnlyOnApprove=True&sendemail=True&UTF8=True&UTF8out=True&Info=DirectDebit&Coin=1&PageLang=HEB');
             else
