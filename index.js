@@ -168,7 +168,8 @@ function contributeForm() {
                     name: registerForm.find("#name").val(),
                     amount: registerForm.find("#amount").val(),
                     repeat: true,
-                    months: registerForm.find("#months").val()
+                    months: registerForm.find("#months").val(),
+                    type: pay_option
                 },
                 url = "https://ylevtlv.azurewebsites.net/api/Contribute?code=Cti-yoFy3ifJG60NfV133octc_oHcNOl5lMjHjvERy5XAzFuueYpcQ=="
         } else {
@@ -176,7 +177,8 @@ function contributeForm() {
                 details = {
                     name: registerForm.find("#name").val(),
                     amount: registerForm.find("#amount").val(),
-                    repeat: false
+                    repeat: false,
+                    type: pay_option
                 },
                 url = "https://ylevtlv.azurewebsites.net/api/Contribute?code=Cti-yoFy3ifJG60NfV133octc_oHcNOl5lMjHjvERy5XAzFuueYpcQ=="
         }
