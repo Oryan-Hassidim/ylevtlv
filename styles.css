@@ -825,6 +825,7 @@ blockquote {
     background: transparent;
     border: none;
     margin-top: 1em;
+    bottom: 0;
     width: 100%;
     border-bottom: 1px solid #7000d7;
     transition: all ease-in-out 0.35s;
@@ -849,9 +850,9 @@ textarea {
 .register-form textarea+label {
     position: absolute;
     color: #4b4b4b;
+    transition: all ease-in-out 0.35s;
     bottom: 0;
     right: 0;
-    transition: all ease-in-out 0.35s;
     pointer-events: none;
     font-size: 1.2em;
     transform: translateY(0);

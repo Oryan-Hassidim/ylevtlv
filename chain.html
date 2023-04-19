@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>שרשרת האחדות</title>
+    <link rel="icon" href="/logo.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bellefair&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
+    <link href="/lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+    <meta property="og:title" content="שרשרת האחדות" />
+    <meta property="og:site_name" content="שרשרת האחדות" />
+    <meta property="og:url" content="https://ylevtlv.z1.web.core.windows.net/chain.html" />
+    <meta property="og:description" content="מתאחדים לזכרם" />
+    <meta property="og:image" content="https://ylevtlv.z1.web.core.windows.net/images/chain.jpg" />
+    <style>
+        body {
+            background-image: url("/images/chain.jpg");
+            background-size: cover;
+        }
+
+        /* on phone screen, vertical stack
+   on computers screen, table */
+        .content {
+            display: grid;
+            grid-template-areas: 
+                'title' 
+                'links'
+                'register-form';
+            justify-content:stretch;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .register-form {
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.1));
+            backdrop-filter: blur(20px);
+            border-radius: 1em;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            margin: 5%;
+            grid-area: register-form;
+        }
+        .links {
+            grid-area: links;
+            text-align: center;
+            font-size: 2em;
+        }
+
+        .links a {
+            color: black;
+        }
+
+        .title {
+            grid-area: title;
+            text-align: center;
+            margin: 5%;
+        }
+        @media (min-width: 768px) {
+            .content {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1.5fr 1fr;
+                grid-template-areas: 
+                'none register-form'
+                'links register-form';
+                height: 100%;
+            }
+            .title {
+                display: none;
+            }
+        }
+
+        .register-form label {
+            color: black;
+        }
+
+        #needRide {
+            display: inline-block;
+            margin-top: 1em;
+            height: 1em;
+            width: 1em;
+            transform: translateY(0.1em);
+        }
+
+        #needRide+label {
+            display: inline-block;
+            margin-right: 0.5em;
+            font-size: 1.2em;
+            color: #1d1d1d;
+        }
+
+        #needRide+label+input,
+        #needRide+label+input+label {
+            display: none;
+        }
+
+        #needRide:checked+label+input,
+        #needRide:checked+label+input+label {
+            display: initial;
+        }
+    </style>
+</head>
+
+<body dir="rtl">
+    <div class="content">
+        <div class="title">
+            <h1>שרשרת האחדות</h1>
+            <h2>מתאחדים לזכרם</h2>
+        </div>
+        <div class="register-form">
+            <form id="registerForm">
+                <div>
+                    <input id="name" type="text" required name="name" />
+                    <label for="name">שמך</label>
+                </div>
+                <div>
+                    <input id="phone" type="text" required name="phone" />
+                    <label for="phone">מס' נייד</label>
+                </div>
+                <div>
+                    <input id="city" type="text" required name="city" />
+                    <label for="city">עיר</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="needRide" name="needRide" value="false">
+                    <label for="needRide">אני צריך הסעה</label>
+                    <input id="location" type="text" name="location" />
+                    <label for="location">מאיפה אתה צריך הסעה?</label>
+                </div>
+                <div>
+                    <textarea id="notes" name="notes" value=" "></textarea>
+                    <label for="notes" style="bottom: 0.5em">הערה (אופציונלי)</label>
+                </div>
+                <div id="sumbitDiv">
+                    <div class="spinner">
+                        <!--invisible-->
+                        <svg>
+                            <circle r="20" cx="22" cy="22"></circle>
+                        </svg>
+                    </div>
+                    <input id="submit" type="submit" value="שלח" />
+                </div>
+            </form>
+        </div>
+        <div class="links">
+            <p><a href="" target="_blank">תרומה</a></p>
+            <p><a href="" target="_blank">צור קשר</a></p>
+        </div>
+    </div>
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="index.js"></script>
+    <script>
+        // on NeedRide checkbox change, toggle the location input to required
+        $("#needRide").change(function () {
+            if (this.checked) {
+                $("#location").attr("required", "required");
+            } else {
+                $("#location").removeAttr("required");
+            }
+        });
+
+        function chainRegisterForm() {
+            const registerForm = $(" #registerForm ");
+            registerForm.submit(function (event) {
+                event.preventDefault();
+                registerForm.find("#submit")
+                    .addClass("submitted")
+                    .delay(350)
+                    .animate({
+                        opacity: "0"
+                    }, 100);
+                registerForm.find(".spinner")
+                    .delay(330)
+                    .fadeIn();
+                var $form = $(this),
+                    details = {
+                        name: registerForm.find("#name").val(),
+                        phone: registerForm.find("#phone").val(),
+                        city: registerForm.find("#city").val(),
+                        location: registerForm.find("#needRide").is(":checked") ? registerForm.find("#location").val() : null,
+                        notes: registerForm.find("#notes").val() === "" ? null : registerForm.find("#notes").val()
+                    },
+                    url = "https://ylevtlv.azurewebsites.net/api/chain/register?code=a5IgfO8HLMq4TDzMxCZ7xvM4pqOWpdUGtQFos14vYA_kAzFuLC6_1w==";
+                var posting = $.post(url, JSON.stringify(details), function (data) {
+                    var h = "";
+                    if (data == 204) {
+                        h = "<div><p>בקשתך התקבלה ונשתדל לשוב אליך בהקדם🙃</p></div>";
+                    } else {
+                        h = "<div><p>הייתה בעיה בקשר עם השרתים😒</p><p>נסה אולי לפנות אלינו דרך הוואטסאפ...</p><p>" + data + "</p></div>"
+                    }
+                    $("#sumbitDiv").html(h);
+                });
+            });
+        }
+        chainRegisterForm();
+    </script>
+</body>
+
+</html>
