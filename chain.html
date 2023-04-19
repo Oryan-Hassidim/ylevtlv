@@ -26,20 +26,21 @@
    on computers screen, table */
         .content {
             display: grid;
-            grid-template-areas: 
-                'title' 
+            grid-template-areas:
+                'title'
                 'links'
                 'register-form';
-            justify-content:stretch;
+            justify-content: stretch;
             align-items: center;
             position: absolute;
             top: 0;
-            bottom: 0;
             left: 0;
-            right: 0;
+            min-height: 100%;
+            min-width: 100%;
         }
 
         .register-form {
+            display: none;
             background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.1));
             backdrop-filter: blur(20px);
             border-radius: 1em;
@@ -47,6 +48,7 @@
             margin: 5%;
             grid-area: register-form;
         }
+
         .links {
             grid-area: links;
             text-align: center;
@@ -62,15 +64,21 @@
             text-align: center;
             margin: 5%;
         }
+
         @media (min-width: 768px) {
+            body {
+                background-position: center;
+            }
+
             .content {
                 grid-template-columns: 1fr 1fr;
                 grid-template-rows: 1.5fr 1fr;
-                grid-template-areas: 
-                'none register-form'
-                'links register-form';
+                grid-template-areas:
+                    'none register-form'
+                    'links register-form';
                 height: 100%;
             }
+
             .title {
                 display: none;
             }
@@ -80,7 +88,8 @@
             color: black;
         }
 
-        #needRide {
+        #needRide,
+        #notNeedRide {
             display: inline-block;
             margin-top: 1em;
             height: 1em;
@@ -88,7 +97,8 @@
             transform: translateY(0.1em);
         }
 
-        #needRide+label {
+        #needRide+label,
+        #notNeedRide+label {
             display: inline-block;
             margin-right: 0.5em;
             font-size: 1.2em;
@@ -128,7 +138,10 @@
                     <label for="city">עיר</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="needRide" name="needRide" value="false">
+                    <input type="radio" id="notNeedRide" name="needRide" checked>
+                    <label for="notNeedRide">אגיע עצמאית לאחד מהחניונים</label>
+                    <br />
+                    <input type="radio" id="needRide" name="needRide">
                     <label for="needRide">אני צריך הסעה</label>
                     <input id="location" type="text" name="location" />
                     <label for="location">מאיפה אתה צריך הסעה?</label>
@@ -149,8 +162,9 @@
             </form>
         </div>
         <div class="links">
-            <p><a href="" target="_blank">תרומה</a></p>
-            <p><a href="" target="_blank">צור קשר</a></p>
+            <a class="btn btn-secondary">תרומה</a>
+            <button id="showRegisterForm" class="btn btn-primary">הרשמה לשרשרת</button>
+            <a href="https://chat.whatsapp.com/CzijmgUEh6WGx7mntJ0W5I" target="_blank" class="btn btn-secondary">התנדבות</a>
         </div>
     </div>
     <script src="/lib/jquery/dist/jquery.min.js"></script>
@@ -201,6 +215,10 @@
             });
         }
         chainRegisterForm();
+
+        $("#showRegisterForm").click(function () {
+            $(".register-form").fadeIn(500);
+        });
     </script>
 </body>
 
