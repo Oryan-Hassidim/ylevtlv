@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/styles.css" />
     <meta property="og:title" content="שרשרת האחדות" />
     <meta property="og:site_name" content="שרשרת האחדות" />
-    <meta property="og:url" content="https://ylevtlv.z1.web.core.windows.net/chain.html" />
+    <meta property="og:url" content="https://did.li/aJCCN" />
     <meta property="og:description" content="מתאחדים לזכרם" />
     <meta property="og:image" content="https://ylevtlv.z1.web.core.windows.net/images/chain.jpg" />
     <style>
@@ -22,8 +22,6 @@
             background-size: cover;
         }
 
-        /* on phone screen, vertical stack
-   on computers screen, table */
         .content {
             display: grid;
             grid-template-areas:
@@ -88,6 +86,10 @@
             color: black;
         }
 
+        .register-form select {
+            background-color: transparent;
+        }
+
         #needRide,
         #notNeedRide {
             display: inline-block;
@@ -114,6 +116,39 @@
         #needRide:checked+label+input+label {
             display: initial;
         }
+
+        .size {
+            margin-bottom: 0.1em;
+        }
+
+        .register-form input[type=text],
+        .register-form input[type=number],
+        .register-form textarea {
+            border-bottom: 1px solid #008fd7;
+        }
+
+        .register-form input[type=submit] {
+            border: 1px solid #008fd7;
+            color: #00537c;
+            background: linear-gradient(120deg, transparent 33%, #008fd7 50%, transparent 66%);
+            background-size: 300% 100%;
+            background-position-x: 0%;
+        }
+
+        .register-form input[type=submit]:focus,
+        .register-form input[type=submit]:hover {
+            border: 1px solid white;
+            box-shadow: 0 0 20px 15px #008fd7;
+            color: #00324c;
+        }
+
+        .spinner {
+            filter: drop-shadow(2px 2px 1px #008fd7D0) drop-shadow(2px -2px 1px #008fd7D0) drop-shadow(-2px -2px 1px #008fd7D0) drop-shadow(-2px 2px 1px #008fd7D0);
+        }
+
+        .spinner circle {
+            stroke: #008fd7;
+        }
     </style>
 </head>
 
@@ -134,17 +169,29 @@
                     <label for="phone">מס' נייד</label>
                 </div>
                 <div>
-                    <input id="city" type="text" required name="city" />
-                    <label for="city">עיר</label>
+                    <input id="count" type="number" required name="count" value="1" />
+                    <label for="count">כמות</label>
                 </div>
                 <div>
                     <input type="radio" id="notNeedRide" name="needRide" checked>
-                    <label for="notNeedRide">אגיע עצמאית לאחד מהחניונים</label>
+                    <label for="notNeedRide">אגיע ברכב / בתחבורה ציבורית לאחד מהחניונים</label>
                     <br />
-                    <input type="radio" id="needRide" name="needRide">
+                    <input type="radio" id="needRide" name="needRide" style="margin-top: 0;">
                     <label for="needRide">אני צריך הסעה</label>
                     <input id="location" type="text" name="location" />
                     <label for="location">מאיפה אתה צריך הסעה?</label>
+                </div>
+                <div id="sizes">
+                    <label for="size">מידת חולצה:</label>
+                    <select class="size form-select" required aria-label="Default select example">
+                        <option value="" selected>בחר מידה מהרשימה</option>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                    </select>
                 </div>
                 <div>
                     <textarea id="notes" name="notes" value=" "></textarea>
@@ -164,7 +211,7 @@
         <div class="links">
             <a class="btn btn-secondary">תרומה</a>
             <button id="showRegisterForm" class="btn btn-primary">הרשמה לשרשרת</button>
-            <a href="https://chat.whatsapp.com/CzijmgUEh6WGx7mntJ0W5I" target="_blank" class="btn btn-secondary">התנדבות</a>
+            <a href="https://chat.whatsapp.com/CzijmgUEh6WGx7mntJ0W5I" class="btn btn-secondary">התנדבות</a>
         </div>
     </div>
     <script src="/lib/jquery/dist/jquery.min.js"></script>
@@ -181,6 +228,40 @@
             }
         });
 
+        var gselect = $(".size").first().clone();
+        $("#count").change(function () {
+            // if count is greater than 1, show size select count times
+            // create a select element with the same name and id as the original
+            // append it to the form
+            // if count is less than 1, remove all selects with the same name and id
+
+            var count = parseInt($(this).val());
+            if (count < 1) {
+                $(this).val(1);
+                count = 1;
+            }
+            if (count > 10) {
+                $(".size").remove();
+                $("#sizes").append("<p class=\"size\">ניצור איתכם קשר בהקדם!</p>");
+                return;
+            }
+            var select = gselect.clone();
+            $(".size").remove();
+            for (var i = 0; i < count; i++) {
+                select.attr("name", "size" + i);
+                select.appendTo("#sizes");
+                select = select.clone();
+            }
+            if (count > 1) {
+                $.each(["0-3", "6", "10", "11", "14"], function (i, item) {
+                    $('.size').append($('<option>', {
+                        value: item,
+                        text: item
+                    }));
+                });
+            }
+        });
+
         function chainRegisterForm() {
             const registerForm = $(" #registerForm ");
             registerForm.submit(function (event) {
@@ -194,11 +275,23 @@
                 registerForm.find(".spinner")
                     .delay(330)
                     .fadeIn();
+                // create a dictionary for count any size
+                var sizes = {};
+                for (var i = 0; i < registerForm.find(".size").length; i++) {
+                    var size = registerForm.find(".size")[i];
+                    if (sizes[size.value] === undefined) {
+                        sizes[size.value] = 1;
+                    } else {
+                        sizes[size.value]++;
+                    }
+                }
+
                 var $form = $(this),
                     details = {
                         name: registerForm.find("#name").val(),
                         phone: registerForm.find("#phone").val(),
-                        city: registerForm.find("#city").val(),
+                        count: parseInt(registerForm.find("#count").val()),
+                        size: JSON.stringify(sizes),
                         location: registerForm.find("#needRide").is(":checked") ? registerForm.find("#location").val() : null,
                         notes: registerForm.find("#notes").val() === "" ? null : registerForm.find("#notes").val()
                     },

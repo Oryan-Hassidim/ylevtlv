@@ -150,20 +150,24 @@ header {
         transition: .3s;
         margin-top: 0;
     }
+
     .navbar .dropdown-menu.fade-down {
         top: 80%;
         transform: rotateX(-75deg);
         transform-origin: 0% 0%;
     }
+
     .navbar .dropdown-menu.fade-up {
         top: 180%;
     }
+
     .navbar .dropdown-menu.flipY {
         opacity: 1;
         transform-origin: top;
         transition-timing-function: cubic-bezier(0.405, 1.465, 0.915, 1.415);
         transform: perspective(1000px) rotateX(-90deg);
     }
+
     .navbar .nav-item:hover .dropdown-menu {
         transition: 0.15s;
         transition-timing-function: cubic-bezier(0.405, 1.465, 0.915, 1.415);
@@ -280,10 +284,12 @@ header {
 }
 
 @keyframes div_h1 {
+
     20%,
     80% {
         opacity: 0;
     }
+
     95% {
         opacity: 1;
     }
@@ -331,22 +337,26 @@ header {
 }
 
 @keyframes welcome {
+
     0%,
     30% {
         transform-origin: bottom;
         transform: perspective(1000px) rotateX(-90deg);
         opacity: 0;
     }
+
     50% {
         transform-origin: bottom;
         opacity: 1;
         transform: rotateX(0deg);
     }
+
     80% {
         transform-origin: top;
         opacity: 1;
         transform: rotateX(0deg);
     }
+
     100% {
         transform-origin: top;
         opacity: 0;
@@ -374,6 +384,7 @@ header {
 }
 
 @keyframes welcome_1 {
+
     20%,
     80% {
         opacity: 0;
@@ -389,6 +400,7 @@ header {
 }
 
 @keyframes welcome_2 {
+
     20%,
     80% {
         opacity: 0;
@@ -423,10 +435,12 @@ header {
 }
 
 @keyframes h1_1 {
+
     20%,
     80% {
         transform: translateX(150%) rotate(120deg);
     }
+
     90% {
         transform: translateX(0) rotate(0deg);
     }
@@ -442,10 +456,12 @@ header {
 }
 
 @keyframes h1_2 {
+
     20%,
     80% {
         transform: translateX(-150%) rotate(120deg);
     }
+
     90% {
         transform: translateX(0) rotate(0deg);
     }
@@ -576,16 +592,19 @@ blockquote {
 }
 
 @keyframes in-anim-right {
+
     0%,
     10% {
         opacity: -0.3;
         transform-origin: 50% 50% 0px;
         transform: perspective(1000px) rotateY(-180deg) translateY(100%) scale(0.5);
     }
+
     50% {
         transform-origin: 50% 50% 0px;
         transform: perspective(1000px) rotateY(-90deg) translateY(50%) translateZ(150px) scale(0.7);
     }
+
     90%,
     100% {
         opacity: 1;
@@ -595,16 +614,19 @@ blockquote {
 }
 
 @keyframes in-anim-left {
+
     0%,
     10% {
         opacity: -0.3;
         transform-origin: 50% 50% 0px;
         transform: perspective(1000px) rotateY(180deg) translateY(100%) scale(0.5);
     }
+
     50% {
         transform-origin: 50% 50% 0px;
         transform: perspective(1000px) rotateY(90deg) translateY(50%) translateZ(150px) scale(0.75);
     }
+
     90%,
     100% {
         opacity: 1;
@@ -905,17 +927,16 @@ textarea {
     background-position-x: 0%;
 }
 
+
 .register-form div:last-child div {
     margin-bottom: 1em;
     margin-top: 1em;
     text-align: center;
 }
 
-.register-form input[type=submit]:focus {
-    outline: none;
-}
-
+.register-form input[type=submit]:focus,
 .register-form input[type=submit]:hover {
+    outline: none;
     border: 1px solid white;
     box-shadow: 0 0 20px 15px #7000d7;
     background-position-x: 100%;
@@ -1033,6 +1054,7 @@ div.stretchy-wrapper>div {
         transform: translateY(100vh) rotateX(-90deg);
         opacity: 0;
     }
+
     to {
         -moz-transform: translateY(0) rotateX(0);
         -ms-transform: translateY(0) rotateX(0);
