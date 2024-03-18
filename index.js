@@ -185,7 +185,7 @@ function contributeForm() {
         }
         var posting = $.post(url, JSON.stringify(details), function (data) {
             if (data == 204) {
-                const h = "<div><p>בקשתך התקבלה ונשתדל לשוב אליך בהקדם🙃</p></div>";
+                const h = "<div><p>נרשם בהצלחה🙃</p></div>";
                 $("#sumbitDiv").html(h);
             } else {
                 const h = "<div><p>הייתה בעיה בקשר עם השרתים😒</p></div>"
@@ -194,10 +194,11 @@ function contributeForm() {
             if (pay_option === "PayBox")
                 location.assign("https://payboxapp.page.link/sKXxfojXwVXgcd3J9");
             else if (pay_option === "Aish")
-                if (repeat)
-                    location.assign('https://aishglobal.formtitan.com/ftd1e9e83d1645553757121_copy?fld21=7014K000000DoAvQAK#/');
-                else
-                    location.assign('https://aishglobal.formtitan.com/ft9df2a10c1644317397601_copy?fld13=416669#/');
+                location.assign('https://nedar.im/hXVM');
+                // if (repeat)
+                //     location.assign('https://aishglobal.formtitan.com/ftd1e9e83d1645553757121_copy?fld21=7014K000000DoAvQAK#/');
+                // else
+                //     location.assign('https://aishglobal.formtitan.com/ft9df2a10c1644317397601_copy?fld13=416669#/');
             else if (pay_option === "Yaad")
                 location.assign('https://icom.yaad.net/p/?action=pay&PassP=1234&Masof=4500341429&HK=True&OnlyOnApprove=True&sendemail=True&UTF8=True&UTF8out=True&Info=DirectDebit&Coin=1&PageLang=HEB');
             else
@@ -207,8 +208,8 @@ function contributeForm() {
 }
 
 function transfer() {
-    $("#view-reciet").prop("checked", true);
-    $("#collapseTwo").collapse('show');
+    $("#view-reciet").prop("checked", false);
+    $("#collapseThree").collapse('show');
 }
 
 function debit() {
