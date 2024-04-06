@@ -11,6 +11,7 @@ body {
     text-align: start;
     font-family: 'Bellefair', serif;
     color: black;
+    scroll-behavior: smooth;
 }
 
 h1,
@@ -210,6 +211,14 @@ header {
     background-position-y: center;
 }
 
+.parallax-image-4 {
+    background-image: url('/images/חיבוק.jpg');
+    background-attachment: fixed;
+    height: 70%;
+    background-position-x: center;
+    background-position-y: center;
+}
+
 @media (min-aspect-ratio: 3/4) {
     .parallax-image-3 {
         background-image: url('/images/שפירא\ פרח.jpg');
@@ -385,6 +394,26 @@ header {
     animation: welcome_1 1s linear;
 }
 
+
+.welcome-2 {
+    vertical-align: bottom;
+    bottom: 0;
+    left: 0;
+    animation: welcome_2 1s linear;
+}
+
+.welcome-1-en {
+    animation: welcome_2 1s linear;
+}
+
+
+.welcome-2-en {
+    vertical-align: bottom;
+    bottom: 0;
+    right: 0;
+    animation: welcome_1 1s linear;
+}
+
 @keyframes welcome_1 {
 
     20%,
@@ -392,13 +421,6 @@ header {
         opacity: 0;
         transform: translateX(150%) scale(50%);
     }
-}
-
-.welcome-2 {
-    vertical-align: bottom;
-    bottom: 0;
-    left: 0;
-    animation: welcome_2 1s linear;
 }
 
 @keyframes welcome_2 {
@@ -700,6 +722,7 @@ blockquote {
 
 .modal-content {
     background: rgba(224, 224, 224, 0.2);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
 }
 
@@ -799,6 +822,7 @@ blockquote {
     top: 20%;
     right: 0%;
     background: rgba(224, 224, 224, 0.2);
+    -webkit-backdrop-filter: blur(40px);
     backdrop-filter: blur(40px);
     border: 2px solid white;
     z-index: 1000;
@@ -813,6 +837,7 @@ blockquote {
     background-image: url("images/WhatsApp_Logo_2.png");
     background-size: cover;
     background-position: center;
+    -webkit-backdrop-filter: blur(40px);
     backdrop-filter: blur(40px);
     border: 1px solid green;
     z-index: 1000;
@@ -1102,4 +1127,49 @@ div.stretchy-wrapper>div {
 
 .bank-details input[type=radio]:checked+p {
     display: inline
+}
+
+
+.anim-before:nth-of-type(1)>*:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.flyout-btn {
+    position: fixed;
+    bottom: 0;
+    opacity: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    padding: 15px 32px;
+    display: inline-block;
+    margin: 30px 2px;
+    animation: flyout-fadein-bootom 0.5s ease-in 3s 1 normal forwards;
+}
+.flyout-btn.hide {
+    animation: flyout-fadeout-bootom 0.5s ease-out 0s 1 normal forwards;
+}
+
+@keyframes flyout-fadein-bootom {
+    0% {
+        opacity: 0;
+        transform: translateY(100%) translateX(-50%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) translateX(-50%);
+    }
+}
+
+@keyframes flyout-fadeout-bootom {
+    0% {
+        opacity: 1;
+        transform: translateY(0) translateX(-50%);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(100%) translateX(-50%);
+    }
 }

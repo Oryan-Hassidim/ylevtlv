@@ -195,12 +195,42 @@ function contributeForm() {
                 location.assign("https://payboxapp.page.link/sKXxfojXwVXgcd3J9");
             else if (pay_option === "Aish")
                 location.assign('https://nedar.im/hXVM');
-                // if (repeat)
-                //     location.assign('https://aishglobal.formtitan.com/ftd1e9e83d1645553757121_copy?fld21=7014K000000DoAvQAK#/');
-                // else
-                //     location.assign('https://aishglobal.formtitan.com/ft9df2a10c1644317397601_copy?fld13=416669#/');
-            else if (pay_option === "Yaad")
-                location.assign('https://icom.yaad.net/p/?action=pay&PassP=1234&Masof=4500341429&HK=True&OnlyOnApprove=True&sendemail=True&UTF8=True&UTF8out=True&Info=DirectDebit&Coin=1&PageLang=HEB');
+            // if (repeat)
+            //     location.assign('https://aishglobal.formtitan.com/ftd1e9e83d1645553757121_copy?fld21=7014K000000DoAvQAK#/');
+            // else
+            //     location.assign('https://aishglobal.formtitan.com/ft9df2a10c1644317397601_copy?fld13=416669#/');
+            else if (pay_option === "Yaad") {
+                //location.assign('https://icom.yaad.net/p/?action=pay&PassP=1234&Masof=4500341429&HK=True&OnlyOnApprove=True&sendemail=True&UTF8=True&UTF8out=True&Info=DirectDebit&Coin=1&PageLang=HEB');
+
+                const url = new URL('https://icom.yaad.net/p/');
+                url.searchParams.append('action', 'pay');
+                url.searchParams.append('PassP', '1234');
+                url.searchParams.append('Masof', '4500341429');
+                url.searchParams.append('HK', 'True');
+                url.searchParams.append('OnlyOnApprove', 'True');
+                url.searchParams.append('sendemail', 'True');
+                url.searchParams.append('UTF8', 'True');
+                url.searchParams.append('UTF8out', 'True');
+                url.searchParams.append('Coin', '1');
+                url.searchParams.append('PageLang', 'HEB');
+                url.searchParams.append('Amount', details.amount);
+                // if name contains more than one word, split it to first and last name
+                const name = details.name.split(' ');
+                url.searchParams.append('ClientName', name[0]);
+                if (name.length > 1)
+                    url.searchParams.append('ClientLName', name.slice(1).join(' '));
+                if (repeat) {
+                    url.searchParams.append('Info', 'תרומה חודשית לישיבת לב תל אביב');
+                    url.searchParams.append('Tash', details.months);
+                } else {
+                    url.searchParams.append('Info', 'תרומה חד פעמית לישיבת לב תל אביב');
+                    url.searchParams.append('Tash', 1);
+                }
+                url.searchParams.append('FixTash', true);
+                url.searchParams.append('tmp', 11);
+
+                location.assign(url);
+            }
             else
                 $("#collapseFour").collapse('show');
         });
