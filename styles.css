@@ -516,7 +516,7 @@ header {
 .content-1,
 .content-2 {
     position: relative;
-    background: rgb(181, 131, 228);
+    background: rgb(180 129 227);
     box-shadow: 0px 10px 10px black, 0px -10px 10px black;
     z-index: 20;
 }
@@ -1144,7 +1144,7 @@ div.stretchy-wrapper>div {
     padding: 15px 32px;
     display: inline-block;
     margin: 30px 2px;
-    animation: flyout-fadein-bootom 0.5s ease-in 3s 1 normal forwards;
+    animation: flyout-fadein-bootom 0.5s ease-in 9s 1 normal forwards;
 }
 .flyout-btn.hide {
     animation: flyout-fadeout-bootom 0.5s ease-out 0s 1 normal forwards;
@@ -1163,13 +1163,22 @@ div.stretchy-wrapper>div {
 }
 
 @keyframes flyout-fadeout-bootom {
-    0% {
-        opacity: 1;
-        transform: translateY(0) translateX(-50%);
-    }
-
     100% {
         opacity: 0;
         transform: translateY(100%) translateX(-50%);
+    }
+}
+
+.youtube-frame {
+    margin: 15px 0;
+    width: 100%;
+    aspect-ratio: 4/3;
+}
+
+/* on large screens */
+@media (min-width: 992px) {
+    .youtube-frame {
+        width: 600px;
+        aspect-ratio: 5/3;
     }
 }
